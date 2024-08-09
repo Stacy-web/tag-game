@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
+import { v4 as uuidv4 } from "uuid";
 
 import Card from "@components/TheCard.vue";
 
@@ -30,7 +31,15 @@ const originalCards = [
     },
 ];
 
-const duplicatedCards = [...originalCards, ...originalCards];
+const duplicatedCards = originalCards.reduce(
+    (acc, card) => [
+        ...acc,
+        { ...card, id: uuidv4() },
+        { ...card, id: uuidv4() },
+    ],
+    []
+);
+const countSelectedCards = ref(0);
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -42,41 +51,48 @@ function shuffleArray(array) {
 }
 
 const shuffleCards = ref(shuffleArray(duplicatedCards));
-const currentCards = ref([]);
 
-function setCurrentCard(test) {
-    console.log(test);
-    // currentCards.value = currentCards.value.push(code);
+function setCurrentCard(id) {
+    shuffleCards.value = shuffleCards.value.map((item) => {
+        if (item.id === id) {
+            return {
+                ...item,
+                isSelect: true,
+            };
+        }
+        return item;
+    });
+    countSelectedCards.value++;
 }
 
-// watch(
-//     shuffleCards,
-//     () => {
-//         const length = currentCards.value.length;
-
-//         if (length == 2) {
-//             if (currentCards[0] === currentCards[1]) {
-//                 shuffleCards.value = shuffleCards.value.map((card) => {
-//                     if (currentCards.value.includes(card.code)) {
-//                         card.freeze = true;
-//                     }
-
-//                     return card;
-//                 });
-//             }
-//         } else {
-//             setTimeout(() => {}, 1000);
-//         }
-//     },
-//     { deep: true }
-// );
+watch(countSelectedCards, (current) => {
+    if (current === 2) {
+        const selectedCards = shuffleCards.value.filter(
+            (item) => item.isSelect
+        );
+        console.log(selectedCards);
+    }
+    // const length = currentCards.value.length;
+    // if (length == 2) {
+    //     if (currentCards[0] === currentCards[1]) {
+    //         shuffleCards.value = shuffleCards.value.map((card) => {
+    //             if (currentCards.value.includes(card.code)) {
+    //                 card.freeze = true;
+    //             }
+    //             return card;
+    //         });
+    //     }
+    // } else {
+    //     setTimeout(() => {}, 1000);
+    // }
+});
 </script>
 
 <template>
     <div class="playing-area">
         <card
-            v-for="card in shuffleCards"
-            :key="card.code"
+            v-for="(card, index) in shuffleCards"
+            :key="`${card.code}_${index}`"
             @set-card="setCurrentCard"
             :="card"
         />

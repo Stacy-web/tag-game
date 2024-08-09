@@ -2,6 +2,7 @@
 import { ref } from "vue";
 
 const props = defineProps({
+    id: String,
     code: String,
     image: String,
 });
@@ -12,7 +13,7 @@ const emit = defineEmits(["setCard"]);
 
 function onClick() {
     isActive.value = !isActive.value;
-    emit("setCard");
+    emit("setCard", props.id);
 }
 </script>
 

@@ -12,4 +12,10 @@ export default defineConfig({
       '@components': fileURLToPath(new URL('./src/components', import.meta.url))
     },
   },
+  build: {
+    sourcemap: true,
+  },
+  server: {
+    sourcemap: true,
+  },
 })
