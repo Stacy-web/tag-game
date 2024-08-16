@@ -1,33 +1,30 @@
 <script setup>
-import { ref } from "vue";
-
 const props = defineProps({
     id: String,
     code: String,
     image: String,
-});
+    isSelect: {
+        type: Boolean,
+        default: false
+    }
+})
 
-const isActive = ref(false);
-
-const emit = defineEmits(["setCard"]);
+const emit = defineEmits(['setCard'])
 
 function onClick() {
-    isActive.value = !isActive.value;
-    emit("setCard", props.id);
+    emit('setCard', props.id)
 }
 </script>
 
 <template>
     <div
-        :class="['card', { card_active: isActive }]"
-        @click="onClick"
-    >
+        :class="['card', { card_active: isSelect }]"
+        @click="onClick">
         <img
             :src="image"
             alt=""
             width="200"
-            height="200"
-        />
+            height="200" />
     </div>
 </template>
 
@@ -37,7 +34,7 @@ function onClick() {
 }
 
 .card:not(.card_active)::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;

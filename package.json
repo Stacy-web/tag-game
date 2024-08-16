@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.7.3",
+    "prettier": "^3.3.3",
+    "sass": "^1.77.8",
     "uuidv4": "^6.2.13",
     "vue": "^3.4.31"
   },
