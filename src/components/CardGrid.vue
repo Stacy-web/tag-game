@@ -5,6 +5,8 @@ import Card from '@cs/TheCard.vue'
 
 const cards = defineModel()
 const countSelectedCards = ref(0)
+const rightSelectedCards = defineModel('score')
+const countSteps = ref(0)
 
 function setCurrentCard(id) {
     cards.value = cards.value.map((item) => {
@@ -30,6 +32,8 @@ watch(countSelectedCards, (current) => {
 
                 return item
             })
+
+            rightSelectedCards.value++
         } else {
             setTimeout(() => {
                 cards.value = cards.value.map((item) => {
@@ -46,11 +50,13 @@ watch(countSelectedCards, (current) => {
         }
 
         countSelectedCards.value = 0
+        countSteps.value++
     }
 })
 </script>
 
 <template>
+    количество ходов: {{ countSteps }}
     <div class="card-grid">
         <card
             v-for="card in cards"

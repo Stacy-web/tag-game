@@ -13,7 +13,8 @@
     "prettier": "^3.3.3",
     "sass": "^1.77.8",
     "uuidv4": "^6.2.13",
-    "vue": "^3.4.31"
+    "vue": "^3.4.31",
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
